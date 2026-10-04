@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Evolui</title>
+<meta name="theme-color" content="#0D2237">
+<meta name="description" content="Evolui: ciclos de 30 dias, um registro por dia.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Evolui">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F5F9;--card:#FFFFFF;--ink:#0D2237;--muted:#5B6B7D;--line:#D9E1EA;
+  --calm:#2E9BD6;--calm-soft:#DDF1FC;--mid:#F5B400;--hard:#D9604C;--empty:#E3E9F0;--accent:#0D2237;--on-accent:#FFFFFF;--good:#5BB8E6;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1B3654;--card:#24456A;--ink:#FFFFFF;--muted:#C2D1E1;--line:#36597F;--calm:#7CD4FA;--calm-soft:#2A577D;--mid:#F5B400;--hard:#F59A88;--empty:#3A5E84;--accent:#7CD4FA;--on-accent:#0D2237;--good:#A6E2FB}}
+:root[data-theme="dark"]{--bg:#1B3654;--card:#24456A;--ink:#FFFFFF;--muted:#C2D1E1;--line:#36597F;--calm:#7CD4FA;--calm-soft:#2A577D;--mid:#F5B400;--hard:#F59A88;--empty:#3A5E84;--accent:#7CD4FA;--on-accent:#0D2237;--good:#A6E2FB}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 "Poppins",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:22px 18px 60px}
+h1,h2{font-family:"Poppins",system-ui,sans-serif;font-weight:600;letter-spacing:-.01em;margin:0}
+h1{font-size:34px;line-height:1.1}
+h2{font-size:23px;margin-bottom:10px}
+.muted{color:var(--muted)}
+.top p{margin:4px 0 0;color:var(--muted);font-size:15px}
+.ringbox{position:relative;margin:18px auto 6px;max-width:340px}
+.ringbox svg{width:100%;height:auto;display:block}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.ring-center .big{font:600 54px/1 "Poppins",system-ui,sans-serif}
+.ring-center .sm{font-size:14px;color:var(--muted);max-width:14ch}
+.dot{cursor:pointer;transition:r .15s}
+.legend{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 22px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font:600 26px/1.1 "Poppins",system-ui,sans-serif}
+.stat span{font-size:12.5px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.daterow{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+input[type=date],textarea,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+textarea{width:100%;min-height:92px;resize:vertical}
+label.q{display:block;font-weight:700;margin:14px 0 6px}
+.checks label{display:flex;gap:10px;align-items:flex-start;padding:9px 4px;border-bottom:1px solid var(--line);cursor:pointer}
+.checks label:last-child{border-bottom:0}
+.checks input{width:22px;height:22px;accent-color:var(--calm);flex:none;margin-top:1px}
+.status{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.status button{font:600 14px "Poppins",sans-serif;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:10px 6px;cursor:pointer;line-height:1.25}
+.status button i{display:block;width:14px;height:14px;border-radius:50%;margin:0 auto 5px}
+.status button[aria-pressed="true"]{border-color:var(--ink);background:var(--card);box-shadow:0 0 0 2px var(--ink) inset}
+.save{width:100%;margin-top:16px;font:700 16px "Poppins",sans-serif;background:var(--accent);color:var(--on-accent);border:0;border-radius:12px;padding:13px;cursor:pointer}
+.saved{text-align:center;color:var(--calm);font-weight:600;min-height:22px;margin-top:8px;font-size:14px}
+.ctx{display:flex;flex-wrap:wrap;gap:8px}.ctx button{font:600 14px 'Poppins',sans-serif;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:20px;padding:8px 13px;cursor:pointer}.ctx button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctag{display:inline-block;font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:20px;padding:1px 8px;margin:4px 4px 0 0;color:var(--muted)}
+.thermo{display:flex;gap:18px;align-items:center}
+.thermo svg{flex:none;width:94px;height:auto}
+.thermo .num{font:600 52px/1 "Poppins",system-ui,sans-serif}
+.thermo .lvl{font-weight:700;font-size:17px;margin-top:2px}
+.thermo .msg{font-size:14px;color:var(--muted);margin-top:4px}
+.trow{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:7px 0;border-top:1px solid var(--line)}
+.trow b{font-variant-numeric:tabular-nums}
+.bars{display:flex;align-items:flex-end;gap:4px;height:64px;margin-top:10px}
+.bars div{flex:1;border-radius:4px 4px 0 0;min-height:3px}
+.bars-l{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:4px}
+.hint{background:var(--calm-soft);border-radius:12px;padding:12px 14px;font-size:14.5px;margin-top:12px}
+.hist-head{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entry{border-top:1px solid var(--line);padding:12px 0}
+.entry:first-child{border-top:0}
+.entry .h{display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.entry .tag{align-self:flex-start;font-size:12px;font-weight:700;padding:2px 9px;border-radius:20px;color:#fff;white-space:nowrap}
+.entry p{margin:4px 0 0;font-size:14.5px;white-space:pre-wrap}
+.entry .edit{background:none;border:0;color:var(--accent);font:600 13.5px "Poppins",sans-serif;cursor:pointer;padding:4px 0 0}
+details summary{cursor:pointer;font-weight:700}
+.small-btn{font:600 14px "Poppins",sans-serif;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 12px;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible,.dot:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{width:46px;height:46px;flex:none;background:#0D2237;border-radius:13px;padding:5px}
+.brand .logo svg{width:100%;height:100%;display:block}
+.by{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);margin-top:4px}
+.dayia{display:inline-flex;align-items:center;gap:5px;background:#0D2237;border-radius:999px;padding:3px 10px 3px 6px;font:700 13px/1 "Poppins",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
+.dayia svg{width:15px;height:15px;display:block}.dayia b{font-weight:700}.dayia i{font-style:normal;color:#7CD4FA}
+#splash{position:fixed;inset:0;z-index:99;background:#0D2237;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s ease}
+#splash svg{width:96px;height:96px;animation:spin 1.1s ease-out}
+#splash .name{font:600 34px/1 "Poppins",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
+#splash .sub{font:400 13px "Poppins",system-ui,sans-serif;color:#9DB0C4}#splash .sub b{color:#fff;font-weight:700}#splash .sub b span{color:#7CD4FA}
+#splash.hide{opacity:0;pointer-events:none}
+@keyframes spin{from{transform:rotate(-90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){#splash svg{animation:none}}
+</style>
+</head>
+<body>
+<div id="splash" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="66" cy="34" rx="24" ry="15" transform="rotate(-45 66 34)" fill="#fff"/><ellipse cx="34" cy="66" rx="24" ry="15" transform="rotate(-45 34 66)" fill="#fff"/><ellipse cx="34" cy="34" rx="24" ry="15" transform="rotate(45 34 34)" fill="#F5B400"/><ellipse cx="66" cy="66" rx="24" ry="15" transform="rotate(45 66 66)" fill="#7CD4FA"/><circle cx="50" cy="50" r="6" fill="#0D2237"/></g></svg><div class="name">Evolui</div><div class="sub">por <b>Day<span>IA</span></b></div></div>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo"><svg viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="66" cy="34" rx="24" ry="15" transform="rotate(-45 66 34)" fill="#fff"/><ellipse cx="34" cy="66" rx="24" ry="15" transform="rotate(-45 34 66)" fill="#fff"/><ellipse cx="34" cy="34" rx="24" ry="15" transform="rotate(45 34 34)" fill="#F5B400"/><ellipse cx="66" cy="66" rx="24" ry="15" transform="rotate(45 66 66)" fill="#7CD4FA"/><circle cx="50" cy="50" r="6" fill="#0D2237"/></g></svg></div><div><h1>Evolui</h1><div class="by">por <span class="dayia"><svg viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="66" cy="34" rx="24" ry="15" transform="rotate(-45 66 34)" fill="#fff"/><ellipse cx="34" cy="66" rx="24" ry="15" transform="rotate(-45 34 66)" fill="#fff"/><ellipse cx="34" cy="34" rx="24" ry="15" transform="rotate(45 34 34)" fill="#F5B400"/><ellipse cx="66" cy="66" rx="24" ry="15" transform="rotate(45 66 66)" fill="#7CD4FA"/><circle cx="50" cy="50" r="6" fill="#0D2237"/></g></svg><b>Day<i>IA</i></b></span></div></div></div>
+    <p id="subtitle">Ciclos de 30 dias, todos os dias da semana. Um registro por dia, sem pressa e sem culpa.</p>
+  </header>
+
+  <div class="ringbox" id="ringbox"></div>
+  <div class="legend"><span><i style="background:var(--calm)"></i>Dia tranquilo</span><span><i style="background:var(--mid)"></i>Escorreguei um pouco</span><span><i style="background:var(--hard)"></i>Dia difícil</span><span><i style="background:var(--empty)"></i>Sem registro</span></div>
+  <div class="stats" id="stats"></div>
+
+  <section class="card" id="thermo-card">
+    <h2>Termômetro</h2>
+    <div id="thermo"></div>
+  </section>
+
+  <section class="card" id="form">
+    <div class="daterow">
+      <h2 style="margin:0">Registro do dia</h2>
+      <input type="date" id="date" aria-label="Data do registro">
+    </div>
+    <div class="muted" id="dateinfo" style="font-size:14px;margin-top:-4px"></div>
+
+    <label class="q">Com quem convivi hoje? <span class="muted" style="font-weight:400">(marque todos)</span></label>
+    <div class="ctx" id="ctx"></div>
+
+    <label class="q">Hoje eu consegui:</label>
+    <div class="checks" id="checks"></div>
+
+    <label class="q">Como foi o dia no geral?</label>
+    <div class="status" id="status"></div>
+
+    <label class="q" for="t1">Hoje eu…</label>
+    <textarea id="t1" placeholder="Ex.: Hoje eu não me exaltei. Quando o cliente reclamou do prazo, respirei, ouvi até o fim e respondi com calma."></textarea>
+
+    <label class="q" for="t2">O que me ajudou a manter a calma</label>
+    <textarea id="t2" style="min-height:70px" placeholder="Ex.: Pedi um minuto antes de responder. Tomei água. Conversei em particular."></textarea>
+
+    <label class="q" for="t3">Amanhã eu quero…</label>
+    <textarea id="t3" style="min-height:70px" placeholder="Ex.: Falar mais baixo na reunião da manhã e ouvir antes de opinar."></textarea>
+
+    <button class="save" id="save">Salvar o dia</button>
+    <div class="saved" id="saved" role="status" aria-live="polite"></div>
+    <div class="hint" id="hint"></div>
+  </section>
+
+  <section class="card">
+    <div class="hist-head"><h2 style="margin:0">Histórico</h2>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><select id="fc" aria-label="Contexto"><option value="">Todos os lugares</option><option value="trabalho">Trabalho</option><option value="familia">Casa e família</option><option value="amigos">Amigos</option><option value="rua">Rua e outras pessoas</option></select><select id="fm" aria-label="Mês"></select><select id="fy" aria-label="Ano"></select></div>
+    </div>
+    <div id="hist" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <details>
+      <summary>Configurações e cópia de segurança</summary>
+      <label class="q" for="start">Primeiro dia do primeiro ciclo</label>
+      <input type="date" id="start">
+      <p class="muted" style="font-size:14px">Os ciclos de 30 dias contam a partir desta data e recomeçam sozinhos.</p>
+      <label class="q">Cópia de segurança</label>
+      <p class="muted" style="font-size:14px;margin-top:0">Os registros ficam salvos só neste aparelho e neste navegador. De vez em quando, copie o texto abaixo e guarde (num e-mail para você mesma, por exemplo). Para restaurar, cole um backup no campo e toque em Restaurar.</p>
+      <textarea id="backup" style="min-height:110px;font-size:12.5px"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="small-btn" id="bk-copy">Copiar backup</button><button class="small-btn" id="bk-restore">Restaurar</button></div>
+      <div class="saved" id="bk-msg" role="status" aria-live="polite"></div>
+    </details>
+  </section>
+</div>
+
+<script>
+const KEY="nova-day-v1";
+const CHECKS=["Mantive a calma","Falei em tom baixo, sem levantar a voz","Ouvi até o fim antes de responder","Discordei com respeito, e em particular quando precisou","Tratei todo mundo com educação"];
+const CTX={trabalho:"Trabalho",familia:"Casa e família",amigos:"Amigos",rua:"Rua e outras pessoas"};
+const ST={calmo:["Dia tranquilo","var(--calm)"],medio:["Escorreguei um pouco","var(--mid)"],dificil:["Dia difícil","var(--hard)"]};
+const MES=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+const DIAS=["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+let db={start:"2026-09-28",entries:{}};
+try{const raw=localStorage.getItem(KEY);if(raw){const p=JSON.parse(raw);if(p&&p.entries)db=p}}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(db));return true}catch(e){return false}}
+
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parse=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const today=()=>iso(new Date());
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
+const diff=(a,b)=>Math.round((parse(a)-parse(b))/864e5);
+const fmt=s=>{const d=parse(s);return `${DIAS[d.getDay()]}, ${d.getDate()} de ${MES[d.getMonth()]} de ${d.getFullYear()}`};
+const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function cycleOf(s){const i=diff(s,db.start);if(i<0)return null;return{n:Math.floor(i/30)+1,day:i%30+1,first:addDays(db.start,Math.floor(i/30)*30)}}
+
+let sel=today(), selStatus=null, selCtx=[];
+
+function renderRing(){
+  const t=today();let c=cycleOf(t);
+  const box=document.getElementById("ringbox");
+  let first,label,big,cyc;
+  if(!c){first=db.start;big=diff(db.start,t);label=big===1?"dia para começar":"dias para começar";cyc=null}
+  else{first=c.first;big=c.day;label="de 30 · ciclo "+c.n;cyc=c}
+  const W=340,R=140,cx=170,cy=170;let g=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--line)" stroke-width="1.5"/>`;
+  for(let i=0;i<30;i++){
+    const ds=addDays(first,i),a=-Math.PI/2+i*2*Math.PI/30,x=cx+R*Math.cos(a),y=cy+R*Math.sin(a);
+    const e=db.entries[ds],fut=ds>t,isT=ds===t,isS=ds===sel;
+    const fill=e&&e.status?ST[e.status][1]:(fut?"transparent":"var(--empty)");
+    g+=`<circle class="dot" data-d="${ds}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${isS?13:10.5}" fill="${fill}" stroke="${isT?"var(--ink)":fut?"var(--line)":"none"}" stroke-width="${isT?2.5:1.5}" ${fut?"":'tabindex="0"'} role="button" aria-label="${fmt(ds)}${e&&e.status?", "+ST[e.status][0]:""}"><title>${fmt(ds)}</title></circle>`;
+  }
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${W}">${g}</svg><div class="ring-center"><div class="big">${big}</div><div class="sm">${label}</div></div>`;
+  box.querySelectorAll(".dot").forEach(el=>{const ds=el.dataset.d;if(ds>t)return;const go=()=>{sel=ds;loadForm();renderRing();document.getElementById("form").scrollIntoView({behavior:"smooth",block:"start"})};el.onclick=go;el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
+  const sub=document.getElementById("subtitle");
+  sub.textContent=cyc?`Ciclo ${cyc.n}, dia ${cyc.day} de 30. Um registro por dia, sem pressa e sem culpa.`:`O primeiro ciclo começa ${fmt(db.start)}.`;
+  // stats
+  const days=[...Array(30)].map((_,i)=>addDays(first,i)).filter(d=>d<=t);
+  const reg=days.filter(d=>db.entries[d]&&db.entries[d].status);
+  const calm=reg.filter(d=>db.entries[d].status==="calmo").length;
+  let streak=0;for(let d=t;;d=addDays(d,-1)){const e=db.entries[d];if(e&&e.status==="calmo")streak++;else if(d===t&&!e)continue;else break;if(streak>999)break}
+  document.getElementById("stats").innerHTML=`<div class="stat"><b>${reg.length}</b><span>dias registrados no ciclo</span></div><div class="stat"><b>${calm}</b><span>dias tranquilos no ciclo</span></div><div class="stat"><b>${streak}</b><span>dias tranquilos seguidos</span></div>`+(reg.length?`<div style="grid-column:1/-1;font-size:13.5px;color:var(--muted);text-align:center">${Object.entries(CTX).map(([k,l])=>{const x=reg.filter(d=>(db.entries[d].ctx||[]).includes(k));return x.length?`${l}: ${x.filter(d=>db.entries[d].status==="calmo").length} de ${x.length} tranquilos`:""}).filter(Boolean).join(" · ")}</div>`:"");
+}
+
+
+function dayScore(e){if(!e||!e.status)return null;const s={calmo:100,medio:55,dificil:15}[e.status];return Math.round(.6*s+.4*((e.checks||[]).length/CHECKS.length*100))}
+function avg(ds){const v=ds.map(d=>dayScore(db.entries[d])).filter(x=>x!=null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):null}
+function level(v){if(v==null)return["Sem registros ainda","var(--empty)","Registre os seus dias para o termômetro começar a medir."];
+ if(v>=85)return["Evoluindo","var(--calm)","Você está vivendo a mudança. Continue repetindo o que está funcionando."];
+ if(v>=70)return["Bom caminho","var(--good)","A maior parte dos dias está tranquila. Veja nos registros o que ajudou e repita."];
+ if(v>=45)return["Em construção","var(--mid)","Tem dias bons e dias de escorregão, e isso é normal no começo. Escolha um compromisso para focar nesta semana."];
+ return["Atenção","var(--hard)","Os últimos dias pesaram. Sem se culpar: descanse, respire antes de responder e foque em um compromisso de cada vez."]}
+function renderThermo(){
+  const t=today(),c=cycleOf(t),el=document.getElementById("thermo");
+  const first=c?c.first:db.start;
+  const cycDays=[...Array(30)].map((_,i)=>addDays(first,i)).filter(d=>d<=t);
+  const last7=[...Array(7)].map((_,i)=>addDays(t,-i));
+  const prevDays=c&&c.n>1?[...Array(30)].map((_,i)=>addDays(first,i-30)):[];
+  const v=avg(cycDays), v7=avg(last7), vp=prevDays.length?avg(prevDays):null;
+  const [lv,col,msg]=level(v);
+  const H=240,top=14,bot=196,fillH=v==null?0:(bot-top)*v/100;
+  const svg=`<svg viewBox="0 0 96 ${H}" role="img" aria-label="Termômetro: ${v==null?"sem registros":v+" de 100"}">
+   <defs><linearGradient id="tg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="var(--hard)"/><stop offset=".45" stop-color="var(--mid)"/><stop offset=".75" stop-color="var(--good)"/><stop offset="1" stop-color="var(--calm)"/></linearGradient>
+   <clipPath id="tc"><rect x="31" y="${bot-fillH}" width="24" height="${fillH+40}"/></clipPath></defs>
+   <rect x="29" y="${top-2}" width="28" height="${bot-top+14}" rx="14" fill="var(--bg)" stroke="var(--line)" stroke-width="2"/>
+   <circle cx="43" cy="${bot+18}" r="22" fill="var(--bg)" stroke="var(--line)" stroke-width="2"/>
+   <g clip-path="url(#tc)"><rect x="33" y="${top}" width="20" height="${bot-top+12}" rx="10" fill="url(#tg)"/></g>
+   <circle cx="43" cy="${bot+18}" r="17" fill="${v==null?"var(--empty)":col}"/>
+   ${[0,25,50,75,100].map(k=>{const y=bot-(bot-top)*k/100;return`<line x1="60" x2="68" y1="${y}" y2="${y}" stroke="var(--muted)"/><text x="71" y="${y+4}" font-size="10" fill="var(--muted)">${k}</text>`}).join("")}
+  </svg>`;
+  const arrow=(a,b)=>a==null||b==null?"":a>b?` <span style="color:var(--calm)">▲ ${a-b}</span>`:a<b?` <span style="color:var(--hard)">▼ ${b-a}</span>`:" =";
+  const ctxRows=Object.entries(CTX).map(([k,l])=>{const d=cycDays.filter(x=>(db.entries[x]&&db.entries[x].ctx||[]).includes(k));const a=avg(d);return a==null?"":`<div class="trow"><span>${l}</span><b>${a}</b></div>`}).join("");
+  const days14=[...Array(14)].map((_,i)=>addDays(t,i-13));
+  const bars=days14.map(d=>{const s=dayScore(db.entries[d]);return`<div title="${fmt(d)}: ${s==null?"sem registro":s}" style="height:${s==null?3:Math.max(6,s*.64)}px;background:${s==null?"var(--empty)":level(s)[1]}"></div>`}).join("");
+  el.innerHTML=`<div class="thermo">${svg}<div><div class="num">${v==null?"–":v}<span style="font-size:20px;color:var(--muted)">/100</span></div><div class="lvl" style="color:${col==="var(--empty)"?"var(--muted)":col}">${lv}</div><div class="msg">${msg}</div></div></div>
+   <div style="margin-top:12px">
+    <div class="trow"><span>Ciclo atual${c?" (ciclo "+c.n+")":""}</span><b>${v==null?"–":v}</b></div>
+    <div class="trow"><span>Últimos 7 dias</span><b>${v7==null?"–":v7}${arrow(v7,v)}</b></div>
+    ${vp!=null?`<div class="trow"><span>Ciclo anterior</span><b>${vp}${arrow(v,vp)}</b></div>`:""}
+    ${ctxRows}
+   </div>
+   <div class="bars" aria-hidden="true">${bars}</div><div class="bars-l"><span>14 dias atrás</span><span>hoje</span></div>
+   <p class="muted" style="font-size:12.5px;margin:10px 0 0">Como é calculado: cada dia vale de 0 a 100. 60% vem de como foi o dia (tranquilo, escorreguei ou difícil) e 40% dos compromissos marcados. O termômetro é a média dos dias registrados no ciclo. Dias sem registro não contam.</p>`;
+}
+
+function loadForm(){
+  const e=db.entries[sel]||{};
+  const di=document.getElementById("date");di.value=sel;di.max=today();
+  const c=cycleOf(sel);
+  document.getElementById("dateinfo").textContent=fmt(sel)+(c?` · ciclo ${c.n}, dia ${c.day}`:" · antes do primeiro ciclo");
+  document.getElementById("checks").innerHTML=CHECKS.map((t,i)=>`<label><input type="checkbox" data-i="${i}" ${(e.checks||[]).includes(i)?"checked":""}><span>${t}</span></label>`).join("");
+  selStatus=e.status||null;drawStatus();
+  const wk=[0,6].includes(parse(sel).getDay());
+  selCtx=e.ctx?e.ctx.slice():(wk?[]:["trabalho"]);drawCtx();
+  document.getElementById("t1").placeholder=wk?"Ex.: Hoje, no almoço com a família, discordei de um assunto sem levantar a voz.":"Ex.: Hoje eu não me exaltei. Quando o cliente reclamou do prazo, respirei, ouvi até o fim e respondi com calma.";
+  document.getElementById("t1").value=e.t1||"";document.getElementById("t2").value=e.t2||"";document.getElementById("t3").value=e.t3||"";
+  document.getElementById("saved").textContent=e.status?"Este dia já tem registro. Você pode ajustar e salvar de novo.":"";
+  hint();
+}
+function drawCtx(){
+  const el=document.getElementById("ctx");
+  el.innerHTML=Object.entries(CTX).map(([k,l])=>`<button type="button" data-k="${k}" aria-pressed="${selCtx.includes(k)}">${l}</button>`).join("");
+  el.querySelectorAll("button").forEach(b=>b.onclick=()=>{const k=b.dataset.k;selCtx=selCtx.includes(k)?selCtx.filter(x=>x!==k):[...selCtx,k];drawCtx()});
+}
+function drawStatus(){
+  const el=document.getElementById("status");
+  el.innerHTML=Object.entries(ST).map(([k,[l,c]])=>`<button type="button" data-k="${k}" aria-pressed="${selStatus===k}"><i style="background:${c}"></i>${l}</button>`).join("");
+  el.querySelectorAll("button").forEach(b=>b.onclick=()=>{selStatus=b.dataset.k;drawStatus();hint()});
+}
+function hint(){
+  const h=document.getElementById("hint");
+  const m={calmo:"Que bom. Anote o que funcionou: é isso que você vai repetir amanhã.",medio:"Escorregar faz parte de mudar. O que importa é perceber e ajustar. Se alguém ficou chateado, uma palavra em particular resolve muita coisa.",dificil:"Dias difíceis acontecem. Anote o que disparou a reação, sem se julgar, e escolha uma coisa pequena para fazer diferente amanhã. O ciclo continua."};
+  h.textContent=selStatus?m[selStatus]:"Antes de responder quando a voz começar a subir: respire, beba um gole de água ou diga \"me dá um minuto que já te respondo\".";
+}
+document.getElementById("date").onchange=e=>{const v=e.target.value;if(!v)return;sel=v>today()?today():v;loadForm();renderRing()};
+document.getElementById("save").onclick=()=>{
+  const msg=document.getElementById("saved");
+  if(!selStatus){msg.style.color="var(--hard)";msg.textContent="Escolha como foi o dia no geral para salvar.";return}
+  const checks=[...document.querySelectorAll("#checks input:checked")].map(x=>+x.dataset.i);
+  db.entries[sel]={status:selStatus,ctx:selCtx.slice(),checks,t1:document.getElementById("t1").value.trim(),t2:document.getElementById("t2").value.trim(),t3:document.getElementById("t3").value.trim(),at:new Date().toISOString()};
+  const ok=persist();msg.style.color=ok?"var(--calm)":"var(--hard)";
+  msg.textContent=ok?"Dia salvo. Obrigada por se dedicar a você.":"Não consegui salvar neste navegador. Copie o texto antes de sair.";
+  renderRing();renderHist();fillBackup();renderThermo();
+};
+
+function renderHist(){
+  const fm=document.getElementById("fm"),fy=document.getElementById("fy");
+  const keys=Object.keys(db.entries).sort().reverse();
+  const years=[...new Set([new Date().getFullYear(),...keys.map(k=>+k.slice(0,4))])].sort((a,b)=>b-a);
+  const cy=fy.value?+fy.value:new Date().getFullYear(), cm=fm.value!==""?fm.value:String(new Date().getMonth()+1);
+  fy.innerHTML=years.map(y=>`<option ${y===cy?"selected":""}>${y}</option>`).join("");
+  fm.innerHTML=`<option value="0" ${cm==="0"?"selected":""}>Ano todo</option>`+MES.map((m,i)=>`<option value="${i+1}" ${String(i+1)===cm?"selected":""}>${m[0].toUpperCase()+m.slice(1)}</option>`).join("");
+  const fc=document.getElementById("fc").value;const L=keys.filter(k=>+k.slice(0,4)===+fy.value&&(fm.value==="0"||+k.slice(5,7)===+fm.value)&&(!fc||(db.entries[k].ctx||[]).includes(fc)));
+  const h=document.getElementById("hist");
+  if(!L.length){h.innerHTML=`<p class="muted" style="margin:6px 0">Nenhum registro neste período.</p>`;return}
+  const calm=L.filter(k=>db.entries[k].status==="calmo").length;
+  h.innerHTML=`<p class="muted" style="margin:0 0 6px;font-size:14px">${L.length} ${L.length===1?"dia registrado":"dias registrados"}, ${calm} ${calm===1?"tranquilo":"tranquilos"}.</p>`+L.map(k=>{const e=db.entries[k],[l,c]=ST[e.status];
+    return `<div class="entry"><div class="h"><span>${fmt(k)}</span><span class="tag" style="background:${c}">${l}</span></div>
+    <div>${(e.ctx||[]).map(c=>`<span class="ctag">${CTX[c]}</span>`).join("")}</div><p class="muted" style="font-size:13.5px">${(e.checks||[]).length} de ${CHECKS.length} compromissos cumpridos</p>
+    ${e.t1?`<p>${esc(e.t1)}</p>`:""}${e.t2?`<p><b>O que ajudou:</b> ${esc(e.t2)}</p>`:""}${e.t3?`<p><b>Amanhã:</b> ${esc(e.t3)}</p>`:""}
+    <button class="edit" data-d="${k}">Editar este dia</button></div>`}).join("");
+  h.querySelectorAll(".edit").forEach(b=>b.onclick=()=>{sel=b.dataset.d;loadForm();renderRing();document.getElementById("form").scrollIntoView({behavior:"smooth"})});
+}
+document.getElementById("fm").onchange=renderHist;document.getElementById("fc").onchange=renderHist;document.getElementById("fy").onchange=renderHist;
+
+const st=document.getElementById("start");st.value=db.start;
+st.onchange=()=>{if(st.value){db.start=st.value;persist();renderRing();loadForm();renderThermo()}};
+function fillBackup(){document.getElementById("backup").value=JSON.stringify(db)}
+document.getElementById("bk-copy").onclick=async()=>{const t=document.getElementById("backup"),m=document.getElementById("bk-msg");fillBackup();
+  try{await navigator.clipboard.writeText(t.value);m.textContent="Backup copiado. Cole num e-mail ou nas suas notas."}catch(e){t.select();m.textContent="Texto selecionado. Toque e segure para copiar."}};
+document.getElementById("bk-restore").onclick=()=>{const m=document.getElementById("bk-msg");
+  try{const p=JSON.parse(document.getElementById("backup").value);if(!p||typeof p.entries!=="object")throw 0;db={start:p.start||db.start,entries:p.entries};persist();st.value=db.start;renderRing();loadForm();renderHist();renderThermo();m.style.color="var(--calm)";m.textContent="Registros restaurados."}
+  catch(e){m.style.color="var(--hard)";m.textContent="Esse texto não parece um backup válido."}};
+
+sel=today();loadForm();renderRing();renderHist();fillBackup();renderThermo();
+</script>
+<script>
+setTimeout(()=>{const sp=document.getElementById("splash");if(sp){sp.classList.add("hide");setTimeout(()=>sp.remove(),500)}},1300);
+if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})}
+</script>
+</body>
+</html>
