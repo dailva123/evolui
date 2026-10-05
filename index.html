@@ -91,12 +91,12 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .dayia{display:block;height:22px;width:auto;background:#0E2238;border-radius:999px;padding:4px 10px}
 
 #splash{position:fixed;inset:0;z-index:99;background:#0E2238;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s ease}
-#splash .sp-sym{width:104px;height:104px;animation:pop .8s ease-out}
+#splash .sp-sym{width:104px;height:104px;animation:spin 1.1s ease-out}
 #splash .sp-logo{height:20px;width:auto;vertical-align:middle;margin-left:4px}
 #splash .name{font:600 34px/1 "Poppins",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
 #splash .sub{font:400 13px "Poppins",system-ui,sans-serif;color:#9DB0C4}#splash .sub b{color:#fff;font-weight:700}#splash .sub b span{color:#7CD4FA}
 #splash.hide{opacity:0;pointer-events:none}
-@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
+@keyframes spin{from{transform:rotate(-90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){#splash .sp-sym{animation:none}}
 </style>
 </head>
