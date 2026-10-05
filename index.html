@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Evolui</title>
-<meta name="theme-color" content="#0D2237">
+<meta name="theme-color" content="#0E2238">
 <meta name="description" content="Evolui: ciclos de 30 dias, um registro por dia.">
+<script src="config.js"></script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -84,25 +85,26 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 .brand{display:flex;align-items:center;gap:12px}
-.brand .logo{width:46px;height:46px;flex:none;background:#0D2237;border-radius:13px;padding:5px}
-.brand .logo svg{width:100%;height:100%;display:block}
+.brand .logo{width:46px;height:46px;flex:none;border-radius:13px;overflow:hidden;background:#0E2238}
+.brand .logo img{width:100%;height:100%;display:block}
 .by{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);margin-top:4px}
-.dayia{display:inline-flex;align-items:center;gap:5px;background:#0D2237;border-radius:999px;padding:3px 10px 3px 6px;font:700 13px/1 "Poppins",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
-.dayia svg{width:15px;height:15px;display:block}.dayia b{font-weight:700}.dayia i{font-style:normal;color:#7CD4FA}
-#splash{position:fixed;inset:0;z-index:99;background:#0D2237;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s ease}
-#splash svg{width:96px;height:96px;animation:spin 1.1s ease-out}
+.dayia{display:block;height:22px;width:auto;background:#0E2238;border-radius:999px;padding:4px 10px}
+
+#splash{position:fixed;inset:0;z-index:99;background:#0E2238;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s ease}
+#splash .sp-sym{width:104px;height:104px;animation:pop .8s ease-out}
+#splash .sp-logo{height:20px;width:auto;vertical-align:middle;margin-left:4px}
 #splash .name{font:600 34px/1 "Poppins",system-ui,sans-serif;color:#fff;letter-spacing:-.01em}
 #splash .sub{font:400 13px "Poppins",system-ui,sans-serif;color:#9DB0C4}#splash .sub b{color:#fff;font-weight:700}#splash .sub b span{color:#7CD4FA}
 #splash.hide{opacity:0;pointer-events:none}
-@keyframes spin{from{transform:rotate(-90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
-@media (prefers-reduced-motion:reduce){#splash svg{animation:none}}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){#splash .sp-sym{animation:none}}
 </style>
 </head>
 <body>
-<div id="splash" aria-hidden="true"><svg viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="66" cy="34" rx="24" ry="15" transform="rotate(-45 66 34)" fill="#fff"/><ellipse cx="34" cy="66" rx="24" ry="15" transform="rotate(-45 34 66)" fill="#fff"/><ellipse cx="34" cy="34" rx="24" ry="15" transform="rotate(45 34 34)" fill="#F5B400"/><ellipse cx="66" cy="66" rx="24" ry="15" transform="rotate(45 66 66)" fill="#7CD4FA"/><circle cx="50" cy="50" r="6" fill="#0D2237"/></g></svg><div class="name">Evolui</div><div class="sub">por <b>Day<span>IA</span></b></div></div>
+<div id="splash" aria-hidden="true"><img class="sp-sym" src="dayia-simbolo.png" alt=""><div class="name">Evolui</div><div class="sub">por <img class="sp-logo" src="dayia-logo.png" alt="DayIA"></div></div>
 <div class="wrap">
   <header class="top">
-    <div class="brand"><div class="logo"><svg viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="66" cy="34" rx="24" ry="15" transform="rotate(-45 66 34)" fill="#fff"/><ellipse cx="34" cy="66" rx="24" ry="15" transform="rotate(-45 34 66)" fill="#fff"/><ellipse cx="34" cy="34" rx="24" ry="15" transform="rotate(45 34 34)" fill="#F5B400"/><ellipse cx="66" cy="66" rx="24" ry="15" transform="rotate(45 66 66)" fill="#7CD4FA"/><circle cx="50" cy="50" r="6" fill="#0D2237"/></g></svg></div><div><h1>Evolui</h1><div class="by">por <span class="dayia"><svg viewBox="0 0 100 100" aria-hidden="true"><g><ellipse cx="66" cy="34" rx="24" ry="15" transform="rotate(-45 66 34)" fill="#fff"/><ellipse cx="34" cy="66" rx="24" ry="15" transform="rotate(-45 34 66)" fill="#fff"/><ellipse cx="34" cy="34" rx="24" ry="15" transform="rotate(45 34 34)" fill="#F5B400"/><ellipse cx="66" cy="66" rx="24" ry="15" transform="rotate(45 66 66)" fill="#7CD4FA"/><circle cx="50" cy="50" r="6" fill="#0D2237"/></g></svg><b>Day<i>IA</i></b></span></div></div></div>
+    <div class="brand"><div class="logo"><img src="dayia-simbolo.png" alt=""></div><div><h1>Evolui</h1><div class="by">por <img class="dayia" src="dayia-logo.png" alt="DayIA"></div></div></div>
     <p id="subtitle">Ciclos de 30 dias, todos os dias da semana. Um registro por dia, sem pressa e sem culpa.</p>
   </header>
 
@@ -326,6 +328,70 @@ document.getElementById("bk-restore").onclick=()=>{const m=document.getElementBy
   catch(e){m.style.color="var(--hard)";m.textContent="Esse texto não parece um backup válido."}};
 
 sel=today();loadForm();renderRing();renderHist();fillBackup();renderThermo();
+</script>
+<div id="pw" hidden>
+ <div class="pw-box">
+  <h2>Continue evoluindo</h2>
+  <p id="pw-msg">Seu teste grátis terminou. Seus registros estão guardados e voltam assim que você liberar o app.</p>
+  <div class="pw-price"><b id="pw-preco"></b><span>pagamento único · sem mensalidade</span></div>
+  <a id="pw-buy" class="pw-btn" target="_blank" rel="noopener">Comprar agora</a>
+  <a id="pw-wa" class="pw-btn pw-ghost" target="_blank" rel="noopener">Já paguei: enviar comprovante</a>
+  <label for="pw-code" class="pw-lbl">Recebeu seu código de liberação?</label>
+  <div class="pw-row"><input id="pw-code" placeholder="EVO-XXXX-XXXX" autocomplete="off" autocapitalize="characters"><button id="pw-ok">Liberar</button></div>
+  <p id="pw-err" class="pw-err" role="alert"></p>
+  <button id="pw-close" class="pw-link" hidden>Voltar ao teste grátis</button>
+ </div>
+</div>
+<div id="pw-bar" hidden><span id="pw-bar-t"></span><button id="pw-bar-b">Comprar</button></div>
+<style>
+#pw{position:fixed;inset:0;z-index:90;background:rgba(13,34,55,.72);display:flex;align-items:center;justify-content:center;padding:18px}
+#pw[hidden],#pw-bar[hidden]{display:none}
+.pw-box{background:var(--card);color:var(--ink);border-radius:20px;max-width:400px;width:100%;padding:24px 20px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.pw-box h2{margin:0 0 6px}.pw-box p{margin:0 0 14px;color:var(--muted);font-size:14.5px}
+.pw-price{display:flex;align-items:baseline;gap:10px;margin:4px 0 16px;flex-wrap:wrap}.pw-price b{font:700 30px/1 "Poppins",system-ui,sans-serif}.pw-price span{font-size:13px;color:var(--muted)}
+.pw-btn{display:block;text-align:center;text-decoration:none;font:600 15px "Poppins",system-ui,sans-serif;background:var(--accent);color:var(--on-accent);border-radius:12px;padding:13px;margin-bottom:9px}
+.pw-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.pw-lbl{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+.pw-row{display:flex;gap:8px}.pw-row input{flex:1;min-width:0;font:600 15px "Poppins",system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
+.pw-row button,#pw-bar button{font:600 14px "Poppins",system-ui,sans-serif;border:0;border-radius:10px;padding:10px 14px;background:var(--accent);color:var(--on-accent);cursor:pointer}
+.pw-err{color:var(--hard)!important;min-height:1em;margin:8px 0 0!important;font-size:13.5px}
+.pw-link{background:none;border:0;color:var(--muted);text-decoration:underline;font:inherit;font-size:13.5px;cursor:pointer;margin-top:6px;padding:4px 0}
+#pw-bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--calm-soft);color:var(--ink);font-size:13.5px;padding:8px 14px;padding-top:calc(8px + env(safe-area-inset-top,0px))}
+#pw-bar button{padding:7px 12px}
+</style>
+<script>
+(function(){
+const H=new Set(["f440cc915fedd67684de", "b70b27fd18d55c4e5898", "6865a328ab698c467c15", "5c60e9b879d292cd218f", "f94f9c318eca17fbd602", "467328454bd7fbc69d3b", "7de0c473af8fbbc092a1", "920c01b3b78fe6ebe1a0", "e0c1284f6dc6ad354e84", "5f3732ae5f9749616a73", "4c938134eb14663fc021", "1bf2090d89c1e58d5b45", "2ca3243a6008b0983c6b", "8c22e329fcf7831a6c8f", "cc27ae8f8731ce6e5567", "de97c9465198f86444e9", "548070bcf79be1530b44", "17c29d1f2d4170264593", "134da815cc632efac1a6", "b31752955ecc76bb8f1b", "148acf9289364fc78213", "f183013ebb3e5a0449ab", "6b6dc3bb40b4688b8d3b", "0ed15cfa8c7ae894c039", "e7362c27033478ab05fe", "1bfebb20115337502b0c", "e496c71604d6c9070564", "e1209a01c37edca468f6", "f11d559fce53af30a1f2", "3b1bfbf69a508eed7ccf", "5cd216c124cdf58d59af", "d021d26e4169cde00856", "a818c64684285917278e", "11675c6325f46dc5c39b", "385233d71f0fe06d3ba2", "ef37cc8d8484e082b68b", "2f98b664e1903b8d8a6f", "0a2fc50194936c894a48", "9c8c31ed885fc2daddbc", "bdd1b58e43ed8022e73a", "79d3f2a06817e604d702", "2087aff8d1af78b0285b", "a84464438f9efea2ca0e", "5c5d8b86131b37e0adb7", "8b5f6af1b60978609ab3", "60aa6f70e3086cca6449", "f63ffd5e94ed6200f752", "3129deac71981c53a35a", "fcd3deb6ae6f83958ef3", "c56a2d080361dad14a72", "70df7da0743ab94fe7e6", "65da1ec561d4d7b30279", "6cacff2f15fa456c144c", "f8109b99566a0791a8e8", "3c221ec625c932039f3b", "cd4edc15c2b1f03d3969", "d5484441670870e124a4", "153accf03c57a78367cf", "ecdf4a9ff21e5104772a", "068455c5ecbffc81892a", "918a25ace17365a1ecaa", "162810641bca502ec9cd", "c02052f6da1f76cc8a0f", "2a88aa8c26ca6249165b", "49db99de77af6a05c8d6", "ef48f590a66358a94e51", "15807b63b5c4444604e9", "3c745a0c7ef9748d17c5", "88f6bb057d6356afbd5d", "c7c2b85ff99f35965c6f", "30bd3a418cf1bdb2f8d2", "ab6a4a2f2a72b286dc8c", "272171bef6fe85f30bac", "76f1dd3566f23bd524ac", "39b3d036a9e09ba555f6", "337a2d326c55931b0b9d", "6d8ef9a5ce97f9e426e7", "c4e39a12552dc326449e", "178993f4ad981506631e", "5170d3e5da969f3dcc8a", "1d65356915dc6d8b8279", "bd5e279d891445c6e2b0", "ef703d5004db6d8d9223", "4b7f67fedd1019384055", "52480b0c26205aacd34d", "ffc4398d4d809e18707c", "ae405c338cf8807715ce", "1604adf11eaa0df91263", "1f4b7bab018aeb34ba80", "532611d76e77ade544e9", "2f9647a97f9f8bbc2c75", "a576329632681acf2184", "ff73567e65e33c016492", "cf6fc70995f30a70179d", "7e9f08a2c823b63800e3", "26907080917fa92b9f07", "191995170cb027560bb6", "4a2320c8268f6e894071", "1a2cbae7f93608b531f1", "ea924efce144b0e9ee53", "357bb4cb91768f6e80c6", "7edd5f47fd4d03b63992", "a717f9f1a0e1048bd788", "5d33dce5dfe51a3910c3", "a0f96963f496f3506b99", "e9a1e51f969486333300", "83b3a9d339fd9ebf8d70", "b8453b4bc04644632525", "32c819a8b0bdd341d0e2", "6f010a6fad7ed743cf9c", "752e2bd8e27e9d37cc03", "625bc23dc6c4ecf9c99f", "497000119bb9399d60c7", "dacd9930322f88d13f27", "63c2c028524ee82801b0", "5439ac1278ed6c47e1ff", "05bcc93d61f99e72bafe", "e4e22bb05cde05dfcfae", "cd0d52db6d181f0ef665", "de3204e41a8c6f249337", "a8125a302d4b822da859", "c3ad1fd1f2f538775960", "a6ce99df59ac0af29ca7", "dba9efae56b110c82504", "ce754aef23f4bb15a197", "776ed7f1c2e940057acb", "90f893bcdb6211b9e5a3", "7ad5ecc66286ce57b3dc", "e5044b89053e4299431f", "c2600f5b9239b554859d", "8fe765e63d6cac3293dd", "8da8f43a4827001e5f11", "1271b534beaad637ab5f", "8652d6a21d85555399ca", "898156a2c138f935bc98", "bdc84ca241b8fe331370", "2cd8ca6945fb8dc67349", "f532178a217e6c8e4167", "1ee60a3a44159729e8ea", "a93aa1c80e70881c19d1", "39797e3b97b7213de09e", "770b5e78d9885b91eb1f", "e12a60cf4a989caa0874", "262725b6213094ff5aff", "bd48ebfef92e1acb208b", "d9a103235ce075b32dfd", "0cd5a5ccd557013707cb", "1c36efb1c0cfc49dbc9e", "d2c2708acdd5bfd694c2", "155d27b845815f6816f4", "f6579e7d51d83f79c1d2", "74b8993bf5be15f518ae", "e130df5e8f50a3b54a5e", "958b80da9728d337ffa6", "b684a107e161f8c94bea", "86db1a20b9fa792a51e8", "2d59a060be5a75b6c67e", "f622fe6caaa6652a6c84", "f75ba00535a2f2d79440", "bdd9d92df4591ccf53fa", "4e3bd82100775454054d", "39dae151ace619934e35", "c2b064b4fb517f5934fc", "7b17d6ef227f81ec848e", "9ce2f29a410ec490238f", "60bfab9245ed74fed03a", "3b5fb42074d7f99433d3", "a398e48c66bae9c01ec1", "77136151777865ff1d4f", "d54543e8cfc02808af2f", "ef436d74b7e40ebc4e61", "d057109024ccc012f1cf", "1e53211e9bff2230f6f3", "e01406201b972b65d453", "7ad46dcb0cc6cecc7860", "89c53431d82c747dd9cf", "3b66e8327a26efa15e20", "b0f420b990a2280b8703", "d4e5e45e072be7564fad", "6809b289a2934436e1c5", "732896228d9e95da22e9", "c14fad5d2c97f8523cb1", "14fbebc4df67d739a01c", "fefccfd947a669b4e7d1", "2cc25225ab633e5cc992", "0e69016886c2a1558c33", "ade8725507ed532d65c1", "3bf3ccc49aadaf6f6c4c", "9bf69a840735372f2a56", "92d8df1f563ef49dc648", "e34f790e5a9986b75ae2", "11069e8dfabf81518134", "d5a241fef020d8868bcb", "c85402973077f1026606", "8b20150dca95d762b0f5", "f6c7ec204393fafef5c1", "cd1dbc774b31a9dfcfc6", "10e69982e978d8eaff9d", "f3919b5cde028a557ceb", "79d4218eabc0bf30783b", "5a503be346bcfbe66fcb", "ae4839759c7e1c44041f", "6a9de059a50967e4d15c", "e86276c4bfb7022b45e8", "914c4b71e75ec2dc5209", "066b33aa2a4cdd39e87b", "408732ba53b32d3bb637", "91ec3867f9abafac05d8", "bff1f4193108dd922172", "ab0ec0e30f6e64096ba7", "3d8084e7305b556e4c69", "58c5880105497d849644", "b96eab654f7ec5bc50a9", "0de06ebf023ed3b1edac", "6f4b2794f9e04cf29aa7", "47fee2979cb05d753a13", "452651f377bb9374fbad", "4b32eccfb311ae89f94e", "8a54ac1a97ff38ca51d1", "f6b7b8d6f0845db5dc57", "cdf87357bb3f91dd9481", "578d59b5128fbbb0ab44", "1d3be21973f847d1d626", "2edfa2d267ecfcfc51df", "5762da3ee392d9b614ac", "4cf8400adccbf9c5fccb", "365ba62a2f98d66c201b", "4d0720829849d4c84ace", "8f3cc7d04fdddb936a88", "96f04b177cb2d31ef14b", "a73a57dd81c9d101b4fb", "8fc804cdb890693255f7", "658a453bb251d514c58f", "40a56080b42a019a9f9a", "71de3c4a4c40917b4e97", "bb5db7cda50597da8836", "df400078511271f711c0", "e9102396dcb359f7f68a", "569d821465a7672a6ca3", "a07faa5a16eaca231014", "8e6c90e064ee3d9a3c69", "faf9a97328e006e912eb", "ebc208179d4d627bfe8e", "5f8941ac1e36270fc7a5", "abbcb54464848a9ce41e", "a8059ee5c4ffafa20ea4", "d2ae72722a1b2a8ef1bc", "5326e7d7066f630547a5", "b4583f0e4ea067442e13", "a30671591e46ae109cb5", "d83b005c1218855f4ccd", "9ea6ae81d06c7d8666a5", "c870ac640ccfd2bb62fb", "315b2259a5d21fd73c22", "bc4a1f0a08eb959e64c0", "c44a2377de190376f38a", "5f96a8e5035071ae369f", "42d1be9569942f931c37", "64de891d02463fd56b64", "4b6f04ee706352e7124c", "3081683746b91255d866", "d9a3f428a04320918ae2", "26890f7eb9267aab268c", "41622c24225c6b7bfcd7", "ee9b234c97f193bc553e", "cdf8287f979a02ab40a6", "bcc2d503dbbae363aef9", "8427a3f261470d0fb7d0", "c7da3105a6cd03ca6791", "ce9b928a8de27161fbed", "1882d7a5dc96e40a018e", "bcd1dec7f1158ccd3dec", "7e1e8c70e93f56ac830c", "683a7a2e12ffcfc526ad", "39fd99dc78a08b62c428", "cda867aceade3a3e5ee4", "261d6f118e9d74c8c401", "970c686c5888f973a3af", "42016bfa9128a9fc3328", "a04ac31c151fa44c85a6", "a39fcaa96c5782173efd", "238a098735ab746e6e94", "fc6a004b57f899030d0e", "059e2858d90c25338ed3", "df6711dd7bd14711a74b", "80d3e950837d8e7dc223", "1c9b2d265493a0151494", "0274730d3ec44af2c2f4", "b6407344b5d1e645d59b", "800562f6b918e7ab2be0", "f829c4dde404462f970b", "20e2570cd2f272a60fdc", "49e894c3bbff6078ac11", "9ed79eb1024318b9bd4f", "8c9f7fa53957e5c77b85", "cc9f4c7166f67290cfa6", "fc925d763f560b750154", "2e261fc179261381a013", "81806222824fa0777e00", "b3eee3e8868cf518ad49"]);
+const LIC="evolui_licenca";
+const cfg={link:window.EVOLUI_LINK_PAGAMENTO||"",wa:(window.EVOLUI_WHATSAPP||"").replace(/\D/g,""),preco:window.EVOLUI_PRECO||"R$ 15,90"};
+const get=k=>{try{return localStorage.getItem(k)}catch(e){return null}}, set=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const norm=c=>(c||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+async function valido(c){c=norm(c);if(c.length<10)return false;const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("evolui:"+c));return H.has([...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("").slice(0,20))}
+const $=id=>document.getElementById(id), pw=$("pw"), bar=$("pw-bar");document.body.prepend(bar);
+let liberadoOk=false, pendente=null;
+$("pw-preco").textContent=cfg.preco;$("pw-buy").textContent="Comprar por "+cfg.preco;$("pw-buy").href=cfg.link;
+$("pw-wa").href="https://wa.me/"+cfg.wa+"?text="+encodeURIComponent("Olá! Comprei o Evolui ("+cfg.preco+") e vou enviar o comprovante para receber meu código de liberação.");
+function abrir(msg){pw.hidden=false;$("pw-close").hidden=false;$("pw-msg").textContent=msg;$("pw-err").textContent=""}
+function liberar(){liberadoOk=true;pw.hidden=true;bar.hidden=true}
+$("pw-close").textContent="Continuar explorando";
+$("pw-close").onclick=()=>{pw.hidden=true;pendente=null};
+$("pw-bar-b").onclick=()=>abrir("Libere o Evolui para sempre com um pagamento único. Depois de pagar, envie o comprovante e você recebe seu código.");
+// Bloqueia salvar e restaurar enquanto o app não estiver liberado
+document.addEventListener("click",e=>{
+ if(liberadoOk)return;
+ const alvo=e.target.closest&&e.target.closest("#save,#bk-restore");
+ if(!alvo)return;
+ e.preventDefault();e.stopPropagation();pendente=alvo.id;
+ abrir(alvo.id==="save"?"Gostou do Evolui? Para salvar o seu dia e acompanhar sua evolução, libere o app com um pagamento único. O que você escreveu continua aqui na tela.":"Para restaurar seus registros, libere o Evolui com um pagamento único.");
+},true);
+$("pw-ok").onclick=async()=>{const c=$("pw-code").value;$("pw-err").textContent="";
+ if(await valido(c)){set(LIC,norm(c));liberar();const p=pendente;pendente=null;
+  alert("Pronto! O Evolui está liberado neste aparelho. Guarde seu código: ele serve se você trocar de celular.");
+  if(p)$(p).click();}
+ else $("pw-err").textContent="Código não reconhecido. Confira as letras e os números e tente de novo."};
+$("pw-code").addEventListener("keydown",e=>{if(e.key==="Enter")$("pw-ok").click()});
+(async()=>{if(get(LIC)&&await valido(get(LIC)))liberar();else{bar.hidden=false;$("pw-bar-t").textContent="Modo demonstração: explore à vontade"}})();
+})();
 </script>
 <script>
 setTimeout(()=>{const sp=document.getElementById("splash");if(sp){sp.classList.add("hide");setTimeout(()=>sp.remove(),500)}},1300);
