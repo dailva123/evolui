@@ -99,9 +99,9 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 @keyframes spin{from{transform:rotate(-90deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){#splash .sp-sym{animation:none}}
 </style>
-</head>
+<style>#splash .sp-wrap{position:relative;width:120px;height:120px}#splash .sp-sym{width:120px;height:120px;mix-blend-mode:lighten;animation:evIn 1.9s ease-out both}#splash .sp-frame{position:absolute;left:30px;top:30px;width:60px;height:60px;border:3px solid #fff;border-radius:8px;box-sizing:border-box;animation:evFr 1.9s both}#splash .sp-logo{mix-blend-mode:lighten}#splash .name,#splash .sub{opacity:0;animation:evTx .5s 1.7s forwards}@keyframes evIn{0%,28%{transform:scale(.3) rotate(0)}42%,52%{transform:scale(1) rotate(0)}88%,100%{transform:scale(1) rotate(1turn)}}@keyframes evFr{0%,26%{opacity:1}40%,100%{opacity:0;transform:scale(1.6)}}@keyframes evTx{to{opacity:1}}</style></head>
 <body>
-<div id="splash" aria-hidden="true"><img class="sp-sym" src="dayia-simbolo.png" alt=""><div class="name">Evolui</div><div class="sub">por <img class="sp-logo" src="dayia-logo.png" alt="DayIA"></div></div>
+<div id="splash" aria-hidden="true"><div class="sp-wrap"><span class="sp-frame"></span><img class="sp-sym" src="dayia-simbolo.png" alt=""></div><div class="name">Evolui</div><div class="sub">by <img class="sp-logo" src="dayia-logo.png" alt="DayIA"></div></div>
 <div class="wrap">
   <header class="top">
     <div class="brand"><div class="logo"><img src="dayia-simbolo.png" alt=""></div><div><h1>Evolui</h1><div class="by">por <img class="dayia" src="dayia-logo.png" alt="DayIA"></div></div></div>
@@ -394,7 +394,7 @@ $("pw-code").addEventListener("keydown",e=>{if(e.key==="Enter")$("pw-ok").click(
 })();
 </script>
 <script>
-setTimeout(()=>{const sp=document.getElementById("splash");if(sp){sp.classList.add("hide");setTimeout(()=>sp.remove(),500)}},1300);
+setTimeout(()=>{const sp=document.getElementById("splash");if(sp){sp.classList.add("hide");setTimeout(()=>sp.remove(),500)}},3600);
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})}
 </script>
 </body>
